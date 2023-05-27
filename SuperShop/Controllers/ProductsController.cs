@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
 using SuperShop.Data.Entities;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SuperShop.Controllers
@@ -18,7 +19,7 @@ namespace SuperShop.Controllers
         // GET: Products
         public IActionResult Index()
         {
-            return View(_productRepository.GetAll());
+            return View(_productRepository.GetAll().OrderBy(e => e.Name));
         }
 
         // GET: Products/Details/5
