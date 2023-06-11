@@ -40,7 +40,7 @@ namespace SuperShop.Data.Entities
                 {
                     return null;
                 }
-                return $"https://localhost:44329//{ImageUrl.Substring(1)}";
+                return $"https://supershop-diogoalves.azurewebsites.net/{ImageUrl.Substring(1)}";
             }
         }
     }
