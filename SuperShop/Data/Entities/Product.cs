@@ -15,8 +15,6 @@ namespace SuperShop.Data.Entities
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
 
-        [Display(Name = "Image")]
-        public Guid ImageId { get; set; }
 
         [Display(Name = "Last Purchase")]
         public DateTime? LastPurchase { get; set; }
@@ -31,6 +29,9 @@ namespace SuperShop.Data.Entities
         public double Stock { get; set; }
 
         public User User { get; set; }
+
+        [Display(Name = "Image")]
+        public Guid ImageId { get; set; }
 
         public string ImageFullPath => ImageId == Guid.Empty ?
             $"https://supershop-diogoalves.azurewebsites.net/images/noimage.png" :
