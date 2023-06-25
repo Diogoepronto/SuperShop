@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace SuperShop.Data.Entities
 {
@@ -8,9 +9,11 @@ namespace SuperShop.Data.Entities
     {
         public int Id { get; set; }
 
+
         [Required]
         [MaxLength(50, ErrorMessage="The field {0} cannot contain more than {1} characters")]
         public string Name { get; set; }
+
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
@@ -19,19 +22,25 @@ namespace SuperShop.Data.Entities
         [Display(Name = "Last Purchase")]
         public DateTime? LastPurchase { get; set; }
 
+
         [Display(Name = "Last Sale")]
         public DateTime? LastSale { get; set; }
+
 
         [Display(Name = "Is Available")]
         public bool IsAvailable { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = false)]
         public double Stock { get; set; }
+
 
         public User User { get; set; }
 
+
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
+
 
         public string ImageFullPath => ImageId == Guid.Empty ?
             $"https://supershop-diogoalves.azurewebsites.net/images/noimage.png" :
