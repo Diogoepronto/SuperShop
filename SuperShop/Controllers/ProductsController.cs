@@ -20,7 +20,7 @@ namespace SuperShop.Controllers
         private readonly IConverterHelper _converterHelper;
 
         public ProductsController(
-            IProductRepository productRepository, 
+            IProductRepository productRepository,
             IUserHelper userHelper,
             IBlobHelper blobHelper,
             IConverterHelper converterHelper)
@@ -31,11 +31,21 @@ namespace SuperShop.Controllers
             _converterHelper = converterHelper;
         }
 
+
+        //#######################################
+        //#                INDEX                #
+        //#######################################
+
         // GET: Products
         public IActionResult Index()
         {
             return View(_productRepository.GetAll().OrderBy(e => e.Name));
         }
+
+
+        //#########################################
+        //#                DETAILS                #
+        //#########################################
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -53,6 +63,11 @@ namespace SuperShop.Controllers
 
             return View(product);
         }
+
+
+        //########################################
+        //#                CREATE                #
+        //########################################
 
         // GET: Products/Create
         [Authorize(Roles = "Admin")]
@@ -86,6 +101,11 @@ namespace SuperShop.Controllers
             return View(model);
         }
 
+
+        // ######################################
+        // #                EDIT                #
+        // ######################################
+
         // GET: Products/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
@@ -105,6 +125,7 @@ namespace SuperShop.Controllers
 
             return View(model);
         }
+
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -145,6 +166,11 @@ namespace SuperShop.Controllers
             return View(model);
         }
 
+
+        // ########################################
+        // #                DELETE                #
+        // ########################################
+
         // GET: Products/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
@@ -172,6 +198,11 @@ namespace SuperShop.Controllers
             await _productRepository.DeleteAsync(product);
             return RedirectToAction(nameof(Index));
         }
+
+
+        // ######################################
+        // #                MISC                #
+        // ######################################
 
         public IActionResult ProductNotFound()
         {

@@ -48,7 +48,7 @@ namespace SuperShop.Data
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _context.Set<T>().AnyAsync(e => e.Id ==id);
+            return await _context.Set<T>().AnyAsync(e => e.Id == id);
         }
 
         private async Task<bool> SaveAllAsync()
