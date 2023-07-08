@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
 using SuperShop.Data.Entities;
@@ -69,8 +70,7 @@ namespace SuperShop.Controllers
         //#                CREATE                #
         //########################################
 
-        // GET: Products/Create
-        [Authorize(Roles = "Admin")]
+        // GET: Products/Create        
         public IActionResult Create()
         {
             return View();
@@ -192,11 +192,28 @@ namespace SuperShop.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
-            await _productRepository.DeleteAsync(product);
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                await _productRepository.DeleteAsync(product);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(DbUpdateException ex) 
+            {
+
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"{product.Name} is probably being used somewhere else.";
+                    ViewBag.ErrorMessage = $"{product.Name} can't be deleted because there are orders using it.</br></br>" +
+                                           $"Try deleting every order that are using it before deleting this product."; 
+                }
+
+                return View("Error");
+            }            
         }
 
 
