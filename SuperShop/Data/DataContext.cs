@@ -11,6 +11,8 @@ namespace SuperShop.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrdersDetails { get; set; }
         public DbSet<OrderDetailTemp> OrdersDetailsTemp { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities{ get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {            
