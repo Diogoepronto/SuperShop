@@ -73,5 +73,28 @@ namespace SuperShop.Helpers
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
+
+        public async Task<SignInResult> ValidadtePasswordAsync(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                false);
+        }
+
+        public async Task<string> GenerateEmailconfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+
+        public async Task<User> GetUserByIdAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
     }
 }

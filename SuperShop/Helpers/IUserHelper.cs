@@ -24,5 +24,13 @@ namespace SuperShop.Helpers
         Task AddUserToRoleAsync(User user, string roleName);
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
+
+        Task<SignInResult> ValidadtePasswordAsync(User user, string password);
+
+        Task<string> GenerateEmailconfirmationTokenAsync(User user);
+
+        Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+
+        Task<User> GetUserByIdAsync(string userId);
     }
 }
