@@ -324,5 +324,78 @@ namespace SuperShop.Controllers
 
             return this.Json(country.Cities.OrderBy(c => c.Name));
         }
+
+
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            if(ModelState.IsValid) 
+            { 
+                var user = await _userHelper.GetUserByEmailAsync(model.Email);
+
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "The email doesn't correspond to a registered user.");
+                    return View(model);
+                }
+
+                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+                var link = Url.Action(
+                    "ResetPassword", 
+                    "Account", 
+                    new { token = myToken }, 
+                    protocol: HttpContext.Request.Scheme);
+
+                Response response = _mailHelper.SendEmail(model.Email, "Shop Password Reset", $"<h1>Shop Password Reset</h1>" +
+                                                                                              $"<p>to reset the password click on this link:</p>" +
+                                                                                              $"<a href=\"{link}\">Reset Password</a>");
+
+                if (response.IsSuccess)
+                {
+                    ViewBag.Message = "The insctrucions to recover your password has been sent to the registered email.";
+                }
+
+                return View();
+            }
+
+            return View(model);
+        }
+
+
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
+            if(user != null)
+            {
+                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+
+                if(result.Succeeded)
+                {
+                    ViewBag.Message = "Password reset succeessful";
+                    return View();
+                }
+
+                ViewBag.Message = "Error while resetting the password.";
+                return View(model);
+            }
+
+            ViewBag.Message = "User not found.";
+            return View(model);
+        }
     }
 }
