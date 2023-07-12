@@ -70,7 +70,7 @@ namespace SuperShop.Controllers
         //#                CREATE                #
         //########################################
 
-        // GET: Products/Create        
+        // GET: Products/Create
         public IActionResult Create()
         {
             return View();
@@ -213,7 +213,7 @@ namespace SuperShop.Controllers
                 }
 
                 return View("Error");
-            }            
+            }
         }
 
 
