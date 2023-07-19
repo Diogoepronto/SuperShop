@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SuperShop.Prism.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <StackLayout Padding="10">
+        <Label Text="Email" />
+        <Entry
+            Keyboard="Email"
+            Placeholder="Enter your e-mail"
+            Text="{Binding Email}" />
+
+        <Label Text="Password" />
+        <Entry
+            IsPassword="True"
+            Keyboard="Text"
+            Placeholder="Enter your password"
+            Text="{Binding Password}" />
+
+        <ActivityIndicator IsRunning="{Binding IsRunning}" VerticalOptions="CenterAndExpand" />
+
+        <Button
+            Command="{Binding LoginCommand}"
+            IsEnabled="{Binding IsEnabled}"
+            Text="Login" />
+
+    </StackLayout>
+
+</ContentPage>
